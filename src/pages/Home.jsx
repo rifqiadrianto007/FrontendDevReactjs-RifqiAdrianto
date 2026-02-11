@@ -7,6 +7,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
     const [showOpenOnly, setShowOpenOnly] = useState(false)
+    const [selectedPrice, setSelectedPrice] = useState("")
 
     useEffect(() => {
         fetchRestaurants()
@@ -31,9 +32,9 @@ export default function Home() {
         }
     }
 
-    const filteredRestaurants = showOpenOnly
-        ? restaurants.filter(r => r.isOpen)
-        : restaurants
+    const filteredRestaurants = restaurants
+        .filter(r => showOpenOnly ? r.isOpen : true)
+        .filter(r => selectedPrice ? String(r.priceRange) === selectedPrice : true)
 
     return (
         <div className="min-h-screen bg-gray-50 py-10">
@@ -41,7 +42,9 @@ export default function Home() {
                 <h1 className="text-3xl font-bold mb-8">
                     All Restaurants
                 </h1>
-                <div className="flex items-center gap-6 mb-8">
+                <div className="flex items-center gap-6 mb-8 flex-wrap">
+
+                    {/* Open Now */}
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
@@ -51,6 +54,20 @@ export default function Home() {
                         />
                         <span>Open Now</span>
                     </label>
+
+                    {/* Price Filter */}
+                    <select
+                        value={selectedPrice}
+                        onChange={(e) => setSelectedPrice(e.target.value)}
+                        className="border rounded px-3 py-2"
+                    >
+                        <option value="">All Prices</option>
+                        <option value="1">$</option>
+                        <option value="2">$$</option>
+                        <option value="3">$$$</option>
+                        <option value="4">$$$$</option>
+                    </select>
+
                 </div>
                 {isLoading && <p>Loading...</p>}
                 {!isLoading && error && (
