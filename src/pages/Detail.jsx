@@ -52,7 +52,7 @@ export default function Detail() {
 
                 <div className="mb-6">
                     <button
-                        onClick={() => navigate("/restaurants")}
+                        onClick={() => navigate("/")}
                         className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition"
                     >
                         <svg
