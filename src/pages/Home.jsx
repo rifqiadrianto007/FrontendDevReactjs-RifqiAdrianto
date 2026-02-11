@@ -8,21 +8,32 @@ export default function Home() {
     const [error, setError] = useState("")
     const [showOpenOnly, setShowOpenOnly] = useState(false)
     const [selectedPrice, setSelectedPrice] = useState("")
+    const [selectedCategory, setSelectedCategory] = useState("")
+    const [visibleCount, setVisibleCount] = useState(8)
 
     useEffect(() => {
+        setVisibleCount(8)
         fetchRestaurants()
-    }, [])
+    }, [selectedCategory])
 
     const fetchRestaurants = async () => {
         setIsLoading(true)
         setError("")
         try {
-            const res = await api.get("/restaurants")
+            let endpoint = "/restaurants"
+
+            if (selectedCategory) {
+                endpoint += `?search=${selectedCategory}`
+            }
+
+            const res = await api.get(endpoint)
+
             const payload = Array.isArray(res.data)
                 ? res.data
                 : Array.isArray(res.data?.data)
                     ? res.data.data
                     : []
+
             setRestaurants(payload)
         } catch (err) {
             setError("Failed to load restaurants. Please try again.")
@@ -68,6 +79,30 @@ export default function Home() {
                         <option value="4">$$$$</option>
                     </select>
 
+                    {/* Category Filter */}
+                    <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        className="border rounded px-3 py-2"
+                    >
+                        <option value="">All Categories</option>
+                        <option value="Javanese">Javanese</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Thai">Thai</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Indonesian">Indonesian</option>
+                        <option value="American">American</option>
+                        <option value="Vietnamese">Vietnamese</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="French">French</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Healthy">Healthy</option>
+                        <option value="Seafood">Seafood</option>
+                    </select>
+
                 </div>
                 {isLoading && <p>Loading...</p>}
                 {!isLoading && error && (
@@ -76,12 +111,25 @@ export default function Home() {
                 {!isLoading && !error && restaurants.length === 0 && (
                     <p>No restaurants found.</p>
                 )}
-                {!isLoading && !error && restaurants.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {filteredRestaurants.map((item) => (
-                            <RestaurantCard key={item.id} item={item} />
-                        ))}
-                    </div>
+                {!isLoading && !error && filteredRestaurants.length > 0 && (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {filteredRestaurants.slice(0, visibleCount).map((item) => (
+                                <RestaurantCard key={item.id} item={item} />
+                            ))}
+                        </div>
+
+                        {visibleCount < filteredRestaurants.length && (
+                            <div className="flex justify-center mt-10">
+                                <button
+                                    onClick={() => setVisibleCount(prev => prev + 4)}
+                                    className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                                >
+                                    Load More
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>
