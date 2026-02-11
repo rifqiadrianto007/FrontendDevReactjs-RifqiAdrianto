@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import api from "../api/axios"
 
 export default function Detail() {
     const { id } = useParams()
     const [restaurant, setRestaurant] = useState(null)
     const [reviews, setReviews] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchDetail()
@@ -32,6 +33,23 @@ export default function Detail() {
         <div className="min-h-screen bg-gray-50 py-10">
             <div className="max-w-6xl mx-auto px-6">
 
+                <div className="mb-6">
+                    <button
+                        onClick={() => navigate("/restaurants")}
+                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back
+                    </button>
+                </div>
                 {/* Header */}
                 <div className="bg-white rounded-xl shadow p-6 mb-8">
                     <div className="grid md:grid-cols-2 gap-6 items-center">
