@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import api from "../api/axios"
+import React from "react"
+import RestaurantCard from "../components/RestaurantCard"
 
 export default function Home() {
     const [restaurants, setRestaurants] = useState([])
@@ -41,31 +43,10 @@ export default function Home() {
             )}
 
             {!isLoading && !error && restaurants.length > 0 && (
-                <div className="grid grid-cols-4 gap-6">
-                    {restaurants.map((item) => {
-                        const imageUrl = item?.photos?.[0] || item?.photo || ""
-                        const priceRange = Number.isFinite(item?.priceRange)
-                            ? item.priceRange
-                            : 0
-
-                        return (
-                            <div key={item.id} className="border rounded-lg p-4 shadow">
-                                {imageUrl ? (
-                                    <img
-                                        src={imageUrl}
-                                        alt={item?.name || "Restaurant"}
-                                        className="h-40 w-full object-cover rounded"
-                                    />
-                                ) : (
-                                    <div className="h-40 w-full rounded bg-gray-200" />
-                                )}
-                                <h2 className="font-semibold mt-3">{item?.name}</h2>
-                                <p>Rating: {item?.rating ?? "-"}</p>
-                                <p>Price: {priceRange > 0 ? "$".repeat(priceRange) : "-"}</p>
-                                <p>{item?.isOpen ? "Open" : "Closed"}</p>
-                            </div>
-                        )
-                    })}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {restaurants.map((item) => (
+                        <RestaurantCard key={item.id} item={item} />
+                    ))}
                 </div>
             )}
         </div>
