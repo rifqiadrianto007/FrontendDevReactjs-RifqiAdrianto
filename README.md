@@ -1,16 +1,119 @@
-# React + Vite
+# FrontendDevReactjs - Restaurant Finder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Technical Test - Front End Developer
 
-Currently, two official plugins are available:
+A restaurant listing web application built using React (Vite) and
+Tailwind CSS. The application consumes data from MockAPI and implements
+both client-side and server-side filtering.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+------------------------------------------------------------------------
 
-## React Compiler
+## 🚀 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   React (Vite)
+-   React Router v6
+-   Tailwind CSS
+-   Axios
+-   MockAPI (REST API)
+-   Netlify (Deployment)
 
-## Expanding the ESLint configuration
+------------------------------------------------------------------------
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Environment & Versions
+
+-   Node.js: v18+ recommended
+-   React: \^18.x
+-   Vite: \^5.x
+-   Tailwind CSS: \^4.x
+
+------------------------------------------------------------------------
+
+## ⚙️ Installation & Setup
+
+Clone repository:
+
+    git clone https://github.com/rifqiadrianto007/FrontendDevReactjs-RifqiAdrianto.git
+
+Navigate into the project folder:
+
+    cd FrontendDevReactjs-RifqiAdrianto
+
+Install dependencies:
+
+    npm install
+
+Run development server:
+
+    npm run dev
+
+Open in browser:
+
+    http://localhost:5173
+
+------------------------------------------------------------------------
+
+## 🌐 Features
+
+### Main Page
+
+-   Restaurant listing grid
+-   Load More functionality
+-   Client-side filters:
+    -   Open Now
+    -   Price range
+-   Server-side filter:
+    -   Categories / Cuisine
+-   Clear All filter option
+-   Responsive layout
+
+### Detail Page
+
+-   Restaurant information
+-   Review listing
+-   Back navigation
+
+------------------------------------------------------------------------
+
+## 🗂️ Project Structure
+
+    src/
+     ├── api/
+     │    └── axios.js
+     ├── components/
+     │    ├── RestaurantCard.jsx
+     ├── pages/
+     │    ├── Home.jsx
+     │    └── Detail.jsx
+     ├── routes/
+     │    └── index.jsx
+     ├── App.jsx
+     └── main.jsx
+
+------------------------------------------------------------------------
+
+## 🔗 API Source
+
+MockAPI (REST API)
+
+Resources: - restaurants - reviews
+
+Filtering logic: - Categories → server-side query - Open Now →
+client-side filter - Price range → client-side filter
+
+------------------------------------------------------------------------
+
+## 🌍 Live Demo
+
+Netlify URL:
+
+https://unrivaled-gingersnap-9e1c05.netlify.app/
+
+------------------------------------------------------------------------
+
+## 📁 Repository
+
+GitHub URL:
+
+https://github.com/rifqiadrianto007/FrontendDevReactjs-RifqiAdrianto
+
+------------------------------------------------------------------------
