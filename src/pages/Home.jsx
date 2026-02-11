@@ -53,66 +53,81 @@ export default function Home() {
                 <p className="text-gray-500 mb-8 max-w-2xl">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
+                {/* border */}
                 <div className="border-t mb-6"></div>
+                <div className="border-b pb-6 mb-10">
 
-                {/* Filter Bar */}
-                <div className="flex items-center justify-between border-b pb-4 mb-10">
-                    <div className="flex items-center gap-8 text-sm">
-                        <span className="text-gray-500">Filter By:</span>
-                        <label className="flex items-center gap-2 border-b pb-1 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={showOpenOnly}
-                                onChange={() => setShowOpenOnly(!showOpenOnly)}
-                            />
-                            Open Now
-                        </label>
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-                        <select
-                            value={selectedPrice}
-                            onChange={(e) => setSelectedPrice(e.target.value)}
-                            className="border-b pb-1 outline-none bg-transparent"
-                        >
-                            <option value="">Price</option>
-                            <option value="1">$</option>
-                            <option value="2">$$</option>
-                            <option value="3">$$$</option>
-                            <option value="4">$$$$</option>
-                        </select>
-                        <select
-                            value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="border-b pb-1 outline-none bg-transparent"
-                        >
-                            <option value="">Categories</option>
-                            <option value="Javanese">Javanese</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Korean">Korean</option>
-                            <option value="Thai">Thai</option>
-                            <option value="Mexican">Mexican</option>
-                            <option value="Indonesian">Indonesian</option>
-                            <option value="American">American</option>
-                            <option value="Vietnamese">Vietnamese</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Mediterranean">Mediterranean</option>
-                            <option value="French">French</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Healthy">Healthy</option>
-                            <option value="Seafood">Seafood</option>
-                        </select>
+                        {/* Left Side */}
+                        <div className="flex flex-wrap items-center gap-6 text-sm">
+                            <span className="text-gray-500">Filter By:</span>
+                            {/* isOpen filter */}
+                            <label className="flex items-center gap-2 border-b pb-1 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={showOpenOnly}
+                                    onChange={() => setShowOpenOnly(!showOpenOnly)}
+                                />
+                                Open Now
+                            </label>
+                            {/* priceRange filter */}
+                            <select
+                                value={selectedPrice}
+                                onChange={(e) => setSelectedPrice(e.target.value)}
+                                className="border-b pb-1 outline-none bg-transparent"
+                            >
+                                <option value="">Price</option>
+                                <option value="1">$</option>
+                                <option value="2">$$</option>
+                                <option value="3">$$$</option>
+                                <option value="4">$$$$</option>
+                            </select>
+
+                            {/* category filter */}
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="border-b pb-1 outline-none bg-transparent"
+                            >
+                                <option value="">Categories</option>
+                                <option value="Javanese">Javanese</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Thai">Thai</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Indonesian">Indonesian</option>
+                                <option value="American">American</option>
+                                <option value="Vietnamese">Vietnamese</option>
+                                <option value="Indian">Indian</option>
+                                <option value="Mediterranean">Mediterranean</option>
+                                <option value="French">French</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Healthy">Healthy</option>
+                                <option value="Seafood">Seafood</option>
+                            </select>
+
+                        </div>
+
+                        {/* Right Side */}
+                        <div>
+                            <button
+                                onClick={() => {
+                                    setShowOpenOnly(false)
+                                    setSelectedPrice("")
+                                    setSelectedCategory("")
+                                }}
+                                className="text-sm border px-4 py-1 w-full lg:w-auto"
+                            >
+                                CLEAR ALL
+                            </button>
+                        </div>
+
                     </div>
-                    <button
-                        onClick={() => {
-                            setShowOpenOnly(false)
-                            setSelectedPrice("")
-                            setSelectedCategory("")
-                        }}
-                        className="text-sm border px-4 py-1"
-                    >
-                        CLEAR ALL
-                    </button>
+
                 </div>
+
 
                 {/* Content */}
                 {isLoading && <p>Loading...</p>}
