@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom"
+
 export default function RestaurantCard({ item }) {
+    const navigate = useNavigate()
     const imageUrl = item?.photos?.[0] || ""
     const priceRange = Number.isFinite(item?.priceRange)
         ? item.priceRange
@@ -27,6 +30,12 @@ export default function RestaurantCard({ item }) {
             <p className={item?.isOpen ? "text-green-600" : "text-red-600"}>
                 {item?.isOpen ? "Open" : "Closed"}
             </p>
+            <button
+                onClick={() => navigate(`/restaurants/${item.id}`)}
+                className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            >
+                Learn More
+            </button>
         </div>
     )
 }

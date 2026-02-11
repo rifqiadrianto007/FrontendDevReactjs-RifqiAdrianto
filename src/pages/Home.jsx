@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import api from "../api/axios"
-import React from "react"
 import RestaurantCard from "../components/RestaurantCard"
 
 export default function Home() {
@@ -32,23 +31,26 @@ export default function Home() {
     }
 
     return (
-        <div className="p-8">
-            <h1 className="text-2xl font-bold mb-6">All Restaurants</h1>
-
-            {isLoading && <p>Loading...</p>}
-            {!isLoading && error && <p className="text-red-600">{error}</p>}
-
-            {!isLoading && !error && restaurants.length === 0 && (
-                <p>No restaurants found.</p>
-            )}
-
-            {!isLoading && !error && restaurants.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {restaurants.map((item) => (
-                        <RestaurantCard key={item.id} item={item} />
-                    ))}
-                </div>
-            )}
+        <div className="min-h-screen bg-gray-50 py-10">
+            <div className="max-w-6xl mx-auto px-6">
+                <h1 className="text-3xl font-bold mb-8">
+                    All Restaurants
+                </h1>
+                {isLoading && <p>Loading...</p>}
+                {!isLoading && error && (
+                    <p className="text-red-600">{error}</p>
+                )}
+                {!isLoading && !error && restaurants.length === 0 && (
+                    <p>No restaurants found.</p>
+                )}
+                {!isLoading && !error && restaurants.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {restaurants.map((item) => (
+                            <RestaurantCard key={item.id} item={item} />
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
