@@ -6,6 +6,8 @@ export default function Detail() {
     const { id } = useParams()
     const [restaurant, setRestaurant] = useState(null)
     const [reviews, setReviews] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState("")
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -13,21 +15,36 @@ export default function Detail() {
     }, [id])
 
     const fetchDetail = async () => {
+        setIsLoading(true)
+        setError("")
         try {
-            const res = await api.get(`/restaurants/${id}`)
-            setRestaurant(res.data)
+            const [res, reviewRes] = await Promise.all([
+                api.get(`/restaurants/${id}`),
+                api.get("/reviews")
+            ])
+            setRestaurant(res.data || null)
 
-            const reviewRes = await api.get("/reviews")
-            const filteredReviews = reviewRes.data.filter(
+            const reviewPayload = Array.isArray(reviewRes.data) ? reviewRes.data : []
+            const filteredReviews = reviewPayload.filter(
                 (rev) => String(rev.restaurantId) === String(id)
             )
             setReviews(filteredReviews)
         } catch (err) {
+            setError("Failed to load restaurant details. Please try again.")
             console.log(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
-    if (!restaurant) return <p className="p-8">Loading...</p>
+    if (isLoading) return <p className="p-8">Loading...</p>
+    if (error) return <p className="p-8 text-red-600">{error}</p>
+    if (!restaurant) return <p className="p-8">Restaurant not found.</p>
+
+    const imageUrl = restaurant?.photos?.[0] || restaurant?.photo || ""
+    const priceRange = Number.isFinite(restaurant?.priceRange)
+        ? restaurant.priceRange
+        : 0
 
     return (
         <div className="min-h-screen bg-gray-50 py-10">
@@ -54,11 +71,15 @@ export default function Detail() {
                 <div className="bg-white rounded-xl shadow p-6 mb-8">
                     <div className="grid md:grid-cols-2 gap-6 items-center">
 
-                        <img
-                            src={restaurant.photos?.[0]}
-                            alt={restaurant.name}
-                            className="w-full h-72 object-cover rounded-lg"
-                        />
+                        {imageUrl ? (
+                            <img
+                                src={imageUrl}
+                                alt={restaurant?.name || "Restaurant"}
+                                className="w-full h-72 object-cover rounded-lg"
+                            />
+                        ) : (
+                            <div className="w-full h-72 rounded-lg bg-gray-200" />
+                        )}
 
                         <div>
                             <h1 className="text-3xl font-bold mb-3">
@@ -66,19 +87,19 @@ export default function Detail() {
                             </h1>
 
                             <p className="text-lg mb-2">
-                                Rating: {restaurant.rating}
+                                Rating: {restaurant?.rating ?? "-"}
                             </p>
 
                             <p className="mb-2">
-                                Price: {"$".repeat(restaurant.priceRange)}
+                                Price: {priceRange > 0 ? "$".repeat(priceRange) : "-"}
                             </p>
 
-                            <p className={restaurant.isOpen ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-                                {restaurant.isOpen ? "Open Now" : "Closed"}
+                            <p className={restaurant?.isOpen ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
+                                {restaurant?.isOpen ? "Open Now" : "Closed"}
                             </p>
 
                             <p className="mt-4 text-gray-600">
-                                {restaurant.description}
+                                {restaurant?.description || "No description provided."}
                             </p>
                         </div>
 
@@ -92,28 +113,34 @@ export default function Detail() {
                     </h2>
 
                     <div className="grid md:grid-cols-2 gap-6">
+                        {reviews.length === 0 && (
+                            <p className="text-gray-500">No reviews yet.</p>
+                        )}
                         {reviews.map((rev) => (
                             <div key={rev.id} className="bg-white rounded-xl shadow p-5">
-
                                 <div className="flex items-center gap-4 mb-4">
-                                    <img
-                                        src={rev.image}
-                                        alt={rev.name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
+                                    {rev?.image ? (
+                                        <img
+                                            src={rev.image}
+                                            alt={rev?.name || "Reviewer"}
+                                            className="w-12 h-12 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-12 h-12 rounded-full bg-gray-200" />
+                                    )}
 
                                     <div>
                                         <p className="font-semibold">
-                                            {rev.name}
+                                            {rev?.name || "Anonymous"}
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            Rating: {rev.rating}
+                                            Rating: {rev?.rating ?? "-"}
                                         </p>
                                     </div>
                                 </div>
 
                                 <p className="text-gray-700">
-                                    {rev.text}
+                                    {rev?.text || "No review text."}
                                 </p>
 
                             </div>
