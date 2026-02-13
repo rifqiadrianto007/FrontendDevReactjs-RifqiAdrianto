@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom"
 export default function RestaurantCard({ item }) {
     const navigate = useNavigate()
 
+    // star rating render
     const renderStars = (rating) => {
         const safeRating = Number.isFinite(rating) ? rating : 0
         const fullStars = Math.max(0, Math.min(5, Math.floor(safeRating)))
         return "★".repeat(fullStars) + "☆".repeat(5 - fullStars)
     }
 
+    // ekstak data
     const imageUrl = item?.photos?.[0] || item?.photo || ""
     const priceRange = Number.isFinite(item?.priceRange) ? item.priceRange : 0
     const primaryCategory = item?.categories?.[0]
@@ -17,11 +19,8 @@ export default function RestaurantCard({ item }) {
         <div className="bg-white p-4">
             <div className="h-40 bg-gray-200 mb-4 overflow-hidden">
                 {imageUrl ? (
-                    <img
-                        src={imageUrl}
-                        alt={item?.name || "Restaurant"}
-                        className="w-full h-full object-cover"
-                    />
+                    <img src={imageUrl} alt={item?.name || "Restaurant"}
+                        className="w-full h-full object-cover" />
                 ) : (
                     <div className="w-full h-full bg-gray-200" />
                 )}
@@ -46,8 +45,7 @@ export default function RestaurantCard({ item }) {
             </div>
             <button
                 onClick={() => navigate(`/restaurants/${item.id}`)}
-                className="w-full bg-blue-900 text-white py-2 text-sm"
-            >
+                className="w-full bg-blue-900 text-white py-2 text-sm">
                 LEARN MORE
             </button>
         </div>

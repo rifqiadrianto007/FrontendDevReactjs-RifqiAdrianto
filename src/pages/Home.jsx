@@ -16,6 +16,7 @@ export default function Home() {
         fetchRestaurants()
     }, [selectedCategory])
 
+    // fetch restaurants
     const fetchRestaurants = async () => {
         setIsLoading(true)
         setError("")
@@ -39,6 +40,7 @@ export default function Home() {
         }
     }
 
+    // restaurant filtering
     const filteredRestaurants = restaurants
         .filter(r => showOpenOnly ? r.isOpen : true)
         .filter(r => selectedPrice ? String(r.priceRange) === selectedPrice : true)
@@ -46,6 +48,7 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-gray-50 py-12">
             <div className="max-w-6xl mx-auto px-6">
+
                 {/* Header */}
                 <h1 className="text-4xl font-semibold mb-3">
                     Restaurants
@@ -53,30 +56,26 @@ export default function Home() {
                 <p className="text-gray-500 mb-8 max-w-2xl">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
+
                 {/* border */}
                 <div className="border-t mb-6"></div>
                 <div className="border-b pb-6 mb-10">
-
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
                         {/* Left Side */}
                         <div className="flex flex-wrap items-center gap-6 text-sm">
                             <span className="text-gray-500">Filter By:</span>
+
                             {/* isOpen filter */}
                             <label className="flex items-center gap-2 border-b pb-1 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={showOpenOnly}
-                                    onChange={() => setShowOpenOnly(!showOpenOnly)}
-                                />
+                                <input type="checkbox" checked={showOpenOnly}
+                                    onChange={() => setShowOpenOnly(!showOpenOnly)} />
                                 Open Now
                             </label>
+
                             {/* priceRange filter */}
-                            <select
-                                value={selectedPrice}
-                                onChange={(e) => setSelectedPrice(e.target.value)}
-                                className="border-b pb-1 outline-none bg-transparent"
-                            >
+                            <select value={selectedPrice} onChange={(e) => setSelectedPrice(e.target.value)}
+                                className="border-b pb-1 outline-none bg-transparent">
                                 <option value="">Price</option>
                                 <option value="1">$</option>
                                 <option value="2">$$</option>
@@ -85,11 +84,8 @@ export default function Home() {
                             </select>
 
                             {/* category filter */}
-                            <select
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="border-b pb-1 outline-none bg-transparent"
-                            >
+                            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}
+                                className="border-b pb-1 outline-none bg-transparent">
                                 <option value="">Categories</option>
                                 <option value="Javanese">Javanese</option>
                                 <option value="Japanese">Japanese</option>
@@ -107,27 +103,22 @@ export default function Home() {
                                 <option value="Healthy">Healthy</option>
                                 <option value="Seafood">Seafood</option>
                             </select>
-
                         </div>
 
                         {/* Right Side */}
                         <div>
-                            <button
-                                onClick={() => {
-                                    setShowOpenOnly(false)
-                                    setSelectedPrice("")
-                                    setSelectedCategory("")
-                                }}
-                                className="text-sm border px-4 py-1 w-full lg:w-auto"
-                            >
+                            <button onClick={() => {
+                                setShowOpenOnly(false)
+                                setSelectedPrice("")
+                                setSelectedCategory("")
+                            }}
+                                className="text-sm border px-4 py-1 w-full lg:w-auto">
                                 CLEAR ALL
                             </button>
                         </div>
 
                     </div>
-
                 </div>
-
 
                 {/* Content */}
                 {isLoading && <p>Loading...</p>}
@@ -139,17 +130,17 @@ export default function Home() {
                 )}
                 {!isLoading && !error && filteredRestaurants.length > 0 && (
                     <>
+                        {/* filtered items */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                             {filteredRestaurants.slice(0, visibleCount).map((item) => (
                                 <RestaurantCard key={item.id} item={item} />
                             ))}
                         </div>
+                        {/* load more button */}
                         {visibleCount < filteredRestaurants.length && (
                             <div className="flex justify-center mt-12">
-                                <button
-                                    onClick={() => setVisibleCount(prev => prev + 4)}
-                                    className="border px-8 py-2 text-sm"
-                                >
+                                <button onClick={() => setVisibleCount(prev => prev + 4)}
+                                    className="border px-8 py-2 text-sm">
                                     LOAD MORE
                                 </button>
                             </div>

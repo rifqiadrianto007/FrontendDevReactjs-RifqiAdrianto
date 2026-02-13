@@ -6,8 +6,8 @@ export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/restaurants/:id" element={<Detail />} />
+                <Route path="/" element={<Home />} /> {/* Restaurant page */}
+                <Route path="/restaurants/:id" element={<Detail />} /> {/* Detail page */}
             </Routes>
         </BrowserRouter>
     )

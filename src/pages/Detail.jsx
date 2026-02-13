@@ -14,6 +14,7 @@ export default function Detail() {
         fetchDetail()
     }, [id])
 
+    // fetch restaurant detail and reviews
     const fetchDetail = async () => {
         setIsLoading(true)
         setError("")
@@ -24,6 +25,7 @@ export default function Detail() {
             ])
             setRestaurant(res.data || null)
 
+            // filter reviews for this restaurant
             const reviewPayload = Array.isArray(reviewRes.data) ? reviewRes.data : []
             const filteredReviews = reviewPayload.filter(
                 (rev) => String(rev.restaurantId) === String(id)
@@ -37,10 +39,12 @@ export default function Detail() {
         }
     }
 
+    // error and loading states
     if (isLoading) return <p className="p-8">Loading...</p>
     if (error) return <p className="p-8 text-red-600">{error}</p>
     if (!restaurant) return <p className="p-8">Restaurant not found.</p>
 
+    // ekstrak data
     const imageUrl = restaurant?.photos?.[0] || restaurant?.photo || ""
     const priceRange = Number.isFinite(restaurant?.priceRange)
         ? restaurant.priceRange
@@ -51,32 +55,23 @@ export default function Detail() {
             <div className="max-w-6xl mx-auto px-6">
 
                 <div className="mb-6">
-                    <button
-                        onClick={() => navigate("/")}
-                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
+                    <button onClick={() => navigate("/")}
+                        className="flex items-center gap-2 text-sm text-gray-600 hover:text-black transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
                         Back
                     </button>
                 </div>
+
                 {/* Header */}
                 <div className="bg-white rounded-xl shadow p-6 mb-8">
                     <div className="grid md:grid-cols-2 gap-6 items-center">
 
                         {imageUrl ? (
-                            <img
-                                src={imageUrl}
-                                alt={restaurant?.name || "Restaurant"}
-                                className="w-full h-72 object-cover rounded-lg"
-                            />
+                            <img src={imageUrl} alt={restaurant?.name || "Restaurant"}
+                                className="w-full h-72 object-cover rounded-lg" />
                         ) : (
                             <div className="w-full h-72 rounded-lg bg-gray-200" />
                         )}
@@ -120,11 +115,8 @@ export default function Detail() {
                             <div key={rev.id} className="bg-white rounded-xl shadow p-5">
                                 <div className="flex items-center gap-4 mb-4">
                                     {rev?.image ? (
-                                        <img
-                                            src={rev.image}
-                                            alt={rev?.name || "Reviewer"}
-                                            className="w-12 h-12 rounded-full object-cover"
-                                        />
+                                        <img src={rev.image} alt={rev?.name || "Reviewer"}
+                                            className="w-12 h-12 rounded-full object-cover" />
                                     ) : (
                                         <div className="w-12 h-12 rounded-full bg-gray-200" />
                                     )}
@@ -147,7 +139,6 @@ export default function Detail() {
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
     )
